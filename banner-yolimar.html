@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YOLIMAR Banner - Ejemplo Embed</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+  <style>
+    /* Estilos adicionales para la página de ejemplo */
+    .embed-example {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .embed-example h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #1f2937;
+    }
+    
+    .embed-controls {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .embed-controls h3 {
+      margin-bottom: 16px;
+      color: #374151;
+    }
+    
+    .embed-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    
+    .embed-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .embed-form-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #4b5563;
+    }
+    
+    .embed-form-group input {
+      padding: 10px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    
+    .embed-form-group input:focus {
+      outline: none;
+      border-color: #148577;
+    }
+    
+    .embed-btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    
+    .embed-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .embed-btn-primary {
+      background: #148577;
+      color: white;
+    }
+    
+    .embed-btn-primary:hover {
+      background: #115e59;
+    }
+    
+    .embed-btn-print {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: white;
+    }
+    
+    .embed-btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+    }
+    
+    .embed-shortcut {
+      background: #1f2937;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .embed-shortcut kbd {
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    
+    /* Loading overlay */
+    .print-loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+    }
+    
+    .print-loading.active {
+      display: flex;
+    }
+    
+    .print-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #dc2626;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="embed-example">
+    <h1>🎨 YOLIMAR Banner - Ejemplo de Embed</h1>
+    
+    <!-- Loading overlay -->
+    <div id="print-loading" class="print-loading">
+      <div class="print-spinner"></div>
+      <p>Preparando impresión...</p>
+    </div>
+    
+    <!-- Controles para personalizar el banner -->
+    <div class="embed-controls">
+      <h3>Configura tu Banner</h3>
+      <div class="embed-form">
+        <div class="embed-form-group">
+          <label>Nombre del Negocio</label>
+          <input type="text" id="embed-name" value="YOLIMAR">
+        </div>
+        <div class="embed-form-group">
+          <label>WhatsApp (sin +591)</label>
+          <input type="text" id="embed-whatsapp" value="76319999">
+        </div>
+        <div class="embed-form-group">
+          <label>Ubicación</label>
+          <input type="text" id="embed-location" value="Santa Cruz, Bolivia">
+        </div>
+        <div class="embed-form-group">
+          <label>Color Principal</label>
+          <input type="color" id="embed-color" value="#148577">
+        </div>
+      </div>
+      <div class="embed-btn-group">
+        <button class="embed-btn embed-btn-primary" onclick="updateBanner()">
+          🔄 Actualizar Banner
+        </button>
+        <button class="embed-btn embed-btn-print" onclick="printBanner()">
+          🖨️ Imprimir / Guardar PDF
+        </button>
+        <div class="embed-shortcut">
+          Atajo: <kbd>Ctrl</kbd> + <kbd>P</kbd> o <kbd>Cmd</kbd> + <kbd>P</kbd>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contenedor del banner -->
+    <div id="yb-banner"></div>
+  </div>
+
+  <script src="js/banner.js"></script>
+  <script src="js/pdf-generator.js"></script>
+  <script>
+    let banner;
+    let config;
+
+    function getDefaultConfig() {
+      return {
+        businessName: 'YOLIMAR',
+        tagline: 'Ropa de Calidad y Estilo Único',
+        title: 'Ropa de Calidad y Estilo Único',
+        subtitle: 'Poleras personalizadas, blusas, sacks y más con diseños exclusivos',
+        whatsappNumber: '59176319999',
+        location: 'Santa Cruz, Bolivia',
+        primaryColor: '#148577',
+        primaryLight: '#0d9488',
+        primaryDark: '#115e59',
+        showProducts: true,
+        showCategories: true,
+        showColors: true,
+        showDesigns: true,
+        showFooter: true,
+        selectedProducts: [
+          { code: 'PA', name: 'Polera Algodón', category: 'Clásico', image: '/images/products/polera-algodon.png' },
+          { code: 'PP', name: 'Polera Poliéster', category: 'Deportivo', image: '/images/products/polera-poliestar.png' },
+          { code: 'PV', name: 'Polera Cuello V', category: 'Elegante', image: '/images/products/polera-cuello-v.png' },
+          { code: 'TP', name: 'Top', category: 'Fresco', image: '/images/products/top.png' },
+          { code: 'BL', name: 'Blusa Manga Larga', category: 'Elegante', image: '/images/products/blusa-manga-larga.png' },
+          { code: 'BS', name: 'Blusa Sin Mangas', category: 'Verano', image: '/images/products/blusa-sin-manga.png' },
+          { code: 'SC', name: 'Sack Clásico', category: 'Cómodo', image: '/images/products/sack-clasico.png' },
+          { code: 'SB', name: 'Sack Bordado', category: 'Premium', image: '/images/products/sack-bordado.png' }
+        ],
+        selectedCategories: [
+          { id: 'poleras', icon: 'P', name: 'Poleras', description: 'Algodón, Poliéster, Cuello V' },
+          { id: 'tops', icon: 'T', name: 'Tops', description: 'Frescos y cómodos' },
+          { id: 'blusas', icon: 'B', name: 'Blusas', description: 'Manga larga y sin mangas' },
+          { id: 'sacks', icon: 'S', name: 'Sacks', description: 'Clásicos y bordados' },
+          { id: 'personalizados', icon: '+', name: 'Personalizados', description: 'Con tus diseños' }
+        ],
+        selectedColors: [
+          { code: 'ROJ', name: 'Rojo', hex: '#ef4444' },
+          { code: 'AZU', name: 'Azul', hex: '#3b82f6' },
+          { code: 'VER', name: 'Verde', hex: '#22c55e' },
+          { code: 'AMA', name: 'Amarillo', hex: '#eab308' },
+          { code: 'NEG', name: 'Negro', hex: '#1f2937' },
+          { code: 'BLA', name: 'Blanco', hex: '#f3f4f6' }
+        ],
+        selectedDesigns: [
+          { code: 'D1', name: 'Diseño 1', image: '/images/designs/1.png' },
+          { code: 'D2', name: 'Diseño 2', image: '/images/designs/2.png' },
+          { code: 'D3', name: 'Diseño 3', image: '/images/designs/3.png' },
+          { code: 'D4', name: 'Diseño 4', image: '/images/designs/4.png' },
+          { code: 'D5', name: 'Diseño 5', image: '/images/designs/5.png' },
+          { code: 'D6', name: 'Diseño 6', image: '/images/designs/6.png' }
+        ]
+      };
+    }
+
+    function adjustColor(hex, percent) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const amt = Math.round(2.55 * percent);
+      const R = Math.min(255, Math.max(0, (num >> 16) + amt));
+      const G = Math.min(255, Math.max(0, (num >> 8 & 0x00FF) + amt));
+      const B = Math.min(255, Math.max(0, (num & 0x0000FF) + amt));
+      return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+    }
+
+    function updateBanner() {
+      const name = document.getElementById('embed-name').value;
+      const whatsapp = document.getElementById('embed-whatsapp').value;
+      const location = document.getElementById('embed-location').value;
+      const color = document.getElementById('embed-color').value;
+      
+      config = getDefaultConfig();
+      config.businessName = name;
+      config.whatsappNumber = '591' + whatsapp;
+      config.location = location;
+      config.primaryColor = color;
+      config.primaryLight = adjustColor(color, 20);
+      config.primaryDark = adjustColor(color, -20);
+      
+      if (banner) {
+        banner.setOptions(config);
+      } else {
+        banner = new YolimarBanner('yb-banner', config);
+      }
+    }
+
+    // Atajo de teclado
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault();
+        printBanner();
+      }
+    });
+
+    function printBanner() {
+      if (!banner || !config) {
+        alert('Error: Primero actualiza el banner');
+        return;
+      }
+
+      const loading = document.getElementById('print-loading');
+      loading.classList.add('active');
+
+      try {
+        const pdfGen = new BannerPDFGenerator(config);
+        const printContent = pdfGen.generatePDFHTML();
+        
+        const printWindow = window.open('', '_blank', 'width=900,height=700');
+        
+        if (!printWindow) {
+          alert('⚠️ Por favor permite las ventanas emergentes');
+          loading.classList.remove('active');
+          return;
+        }
+        
+        printWindow.document.open();
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+        
+        printWindow.onload = function() {
+          setTimeout(function() {
+            printWindow.focus();
+            printWindow.print();
+          }, 500);
+        };
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al imprimir');
+      } finally {
+        loading.classList.remove('active');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', updateBanner);
+  </script>
+</body>
+</html>
