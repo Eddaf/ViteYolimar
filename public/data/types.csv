@@ -1,0 +1,6 @@
+id	key	name	description	has_sizes	image	created_at	updated_at
+1	polera	Polera	Poleras básicas de algodón	S,M,L,XL,XXL			
+2	saco	Saco	Abrigos y sacos formales	M,G,GG,52			
+3	blusa	Blusa	Blusas y tops elegantes	M,G,GG,52			
+4	solera	Solera	Prendas tradicionales	M,G,GG,52			
+							

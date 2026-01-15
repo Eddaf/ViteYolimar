@@ -1,0 +1,4 @@
+id	key	name	enabled	discount_per_unit	min_quantity	description	created_at	updated_at
+1	catalog	Catálogo	1	1.5	3	Descuento por mayor (-1.5 Bs por prenda a partir de 3 unidades)		
+2	design	Diseño Personalizado	1	1.5	12	Descuento por mayor personalizado (-1.5 Bs por prenda a partir de 12 unidades)		
+								

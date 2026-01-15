@@ -29,7 +29,6 @@ const filteredProducts = useMemo(() => {
 
     return matchesSearch;
   });
-  
 }, [searchQuery, selectedType]);
 
   const handleTypeSelect = (typeId: ProductTypeKey | null) => {

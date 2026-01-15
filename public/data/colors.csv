@@ -1,0 +1,17 @@
+id	key	hex	name	created_at	updated_at
+1	negro	#000000	Negro		
+2	blanco	#FFFFFF	Blanco		
+3	rosa	#E91E63	Rosa		
+4	rojo	#F44336	Rojo		
+5	azul	#2196F3	Azul		
+6	verde	#4CAF50	Verde		
+7	amarillo	#FFEB3B	Amarillo		
+8	naranja	#FF9800	Naranja		
+9	morado	#9C27B0	Morado		
+10	gris	#9E9E9E	Gris		
+11	beige	#D7CCC8	Beige		
+12	marron	#795548	Marrón		
+13	bordo	#880E4F	Bordó		
+14	dorado	#FFD700	Dorado		
+15	plata	#C0C0C0	Plata		
+					
